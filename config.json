@@ -4,7 +4,7 @@
     "password": " "
   },
   "monitor": {
-    "check_interval": 21,
+    "check_interval": 3,
     "board_api": "https://api.cc98.org/board/459/topic?from=0&size=20"
   }
 }
