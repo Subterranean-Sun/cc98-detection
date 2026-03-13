@@ -14,7 +14,7 @@ import winsound
 
 API_URL = "https://api.cc98.org/board/459/topic?from=0&size=20"
 STATE_FILE = "state.json"
-CHECK_INTERVAL = 8
+CHECK_INTERVAL = 28
 TOKEN_URL = "https://openid.cc98.org/connect/token"
 CLIENT_ID = "9a1fd200-8687-44b1-4c20-08d50a96e5cd"
 CLIENT_SECRET = "8b53f727-08e2-4509-8857-e34bf92b27f2"
@@ -213,6 +213,22 @@ def play_big_alert_sound() -> None:
     """强提示音：明显一些，但放到线程里避免阻塞界面。"""
     def _play():
         try:
+            base_dir = os.path.dirname(os.path.abspath(__file__))
+            sound_path = os.path.join(base_dir, "alert.wav")
+
+            if os.path.exists(sound_path):
+                winsound.PlaySound(sound_path, winsound.SND_FILENAME | winsound.SND_ASYNC)
+            else:
+                winsound.PlaySound("SystemHand", winsound.SND_ALIAS | winsound.SND_ASYNC)
+            for _ in range(2):
+                try:
+                    winsound.PlaySound("SystemHand", winsound.SND_ALIAS | winsound.SND_SYNC)
+                except Exception:
+                    try:
+                        winsound.PlaySound("SystemExclamation", winsound.SND_ALIAS | winsound.SND_SYNC)
+                    except Exception:
+                        break
+            time.sleep(0.15)
             # 三段式提示音，比单次 Beep 更容易注意到
             winsound.Beep(1400, 180)
             time.sleep(0.08)
