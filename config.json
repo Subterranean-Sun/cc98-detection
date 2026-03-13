@@ -5,6 +5,7 @@
   },
   "monitor": {
     "check_interval": 3,
+    "check_interval_range": [28, 56],
     "board_api": "https://api.cc98.org/board/459/topic?from=0&size=20"
   }
 }
